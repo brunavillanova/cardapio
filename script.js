@@ -230,3 +230,5 @@ document.getElementById('payment-form').addEventListener('submit', async (e) => 
     alert('Erro ao processar o pagamento.');
   }
 });
+
+
