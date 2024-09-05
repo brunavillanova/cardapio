@@ -1,8 +1,16 @@
 import { MercadoPagoConfig, Payment } from 'mercadopago';
+import express from 'express';
+import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+
+dotenv.config(); // Carregar variáveis de ambiente do arquivo .env
+
+const app = express();
+app.use(bodyParser.json());
 
 // Inicializar o cliente com o access token
 const client = new MercadoPagoConfig({
-  accessToken: 'TEST-1924363577123740-090508-308c0769ea53379c2b3ba1cdf4979581-216949229',
+  accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN,
   options: { timeout: 5000 }
 });
 
@@ -24,8 +32,10 @@ app.post('/create-payment', async (req, res) => {
   // Criar o objeto de requisição
   const body = {
     items: items.map(item => ({
-      title: item.name,
-      unit_price: item.price,
+      title: item.title, // Alterado para 'title'
+      description: item.description, // Adicionado descrição
+      currency_id: "BRL", // Corrigido para moeda brasileira
+      unit_price: item.unit_price,
       quantity: item.quantity
     })),
     back_urls: {
@@ -35,8 +45,8 @@ app.post('/create-payment', async (req, res) => {
     },
     auto_return: 'approved',
     payment_methods: {
-      excluded_payment_methods: [{ id: 'ticket' }],
-      excluded_payment_types: [{ id: 'credit_card' }]
+      excluded_payment_methods: [],
+      excluded_payment_types: []
     },
     notification_url: 'https://www.your-site.com/notifications'
   };
@@ -52,7 +62,16 @@ app.post('/create-payment', async (req, res) => {
   }
 });
 
+// Endpoint para receber notificações do Mercado Pago
+app.post('/notifications', (req, res) => {
+  const notification = req.body;
+
+  // Processar a notificação conforme necessário
+  console.log('Notificação recebida:', notification);
+
+  // Responder ao Mercado Pago para confirmar o recebimento da notificação
+  res.sendStatus(200);
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
-
-
