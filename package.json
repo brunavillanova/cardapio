@@ -11,5 +11,9 @@
   "description": "",
   "devDependencies": {
     "tailwindcss": "^3.4.10"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "mercadopago": "^2.0.15"
   }
 }
