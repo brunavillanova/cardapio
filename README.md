@@ -25,12 +25,24 @@ Facilitar o processo de pedido para os clientes de um restaurante, permitindo qu
 
 3. Estrutura do Projeto
 
-plaintext
+Cardápio/
+├── assets/ 
+│   ├── image1.png
+│   └── image2.jpg
+├── node_modules/
+├── styles/
+│   ├── output.css
+│   └── style.css
+├── .env
+├── .gitignore
+├── express.js
+├── index.html
+├── package-lock.json
+├── package.json
+├── README.md
+├── script.js
+└── tailwind.config.js
 
-|-- index.html
-|-- styles.css
-|-- script.js
-|-- README.md
 
 Arquivos e Pastas
 
